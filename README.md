@@ -61,14 +61,6 @@ After that, `tmuxst` can now be used as a normal tmux plugin within the
 
 ## ⚙️ Customization
 
-    WHITE=$(get_tmux_option "@color1" "#96c7f1")
-    GREY=$(get_tmux_option "@color2" "#aaa8af")
-    BLACK=$(get_tmux_option "@color3" "#000000")
-    NOCTURNE=$(get_tmux_option "@color4" "#120d22")
-    AZURE=$(get_tmux_option "@color5" "#0e1a60")
-    LAVENDER=$(get_tmux_option "@color6" "#b4befe")
-    PEACH=$(get_tmux_option "@color7" "#fab387")
-
 | Variable  | Default value | Description |
 | :-------- | :------------ | :---------- |
 | `@color1` | `"#96c7f1"`   | WHITE       |
