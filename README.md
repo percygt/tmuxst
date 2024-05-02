@@ -42,9 +42,9 @@ Add tmuxst as a flake input:
 ```nix
 {
   inputs = {
-    tmuxinoicer.url = "github:percygt/tmuxinoicer";
+    tmuxst.url = "github:percygt/tmuxst";
   };
-  outputs = { tmuxinoicer, ... }: { };
+  outputs = { tmuxst, ... }: { };
 }
 ```
 
@@ -52,19 +52,19 @@ Then, use the flake's `overlay` attribute:
 
 ```nix
 {
-  outputs = { tmuxinoicer, nixpkgs, ... }:
+  outputs = { tmuxst, nixpkgs, ... }:
   let
     pkgs = import nixpkgs {
       system = "x86_64-linux";
-      overlays = [ tmuxinoicer.overlays.default ];
+      overlays = [ tmuxst.overlays.default ];
     };
   in
-    # You can now reference pkgs.tmuxPlugins.tmuxinoicer.
+    # You can now reference pkgs.tmuxPlugins.tmuxst.
   { }
 }
 ```
 
-After that, `tmuxinoicer` can now be used as a normal tmux plugin within the
+After that, `tmuxst` can now be used as a normal tmux plugin within the
 `nixpkgs`.
 
 ## ⚙️ Customization
