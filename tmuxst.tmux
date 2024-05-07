@@ -8,18 +8,6 @@ get_tmux_option() {
 	echo "${option_value:-$default_value}"
 }
 
-setWinOpt() {
-	local option=$1
-	local value=$2
-	tmux set-window-option -gq "$option" "$value"
-}
-
-setOpt() {
-	local option=$1
-	local value=$2
-	tmux set-option -gq "$option" "$value"
-}
-
 handle_tmux_option() {
 	WHITE=$(get_tmux_option "@color1" "#96c7f1")
 	GREY=$(get_tmux_option "@color2" "#aaa8af")
@@ -29,20 +17,17 @@ handle_tmux_option() {
 	LAVENDER=$(get_tmux_option "@color6" "#b4befe")
 	PEACH=$(get_tmux_option "@color7" "#fab387")
 }
-
 handle_tmux_option
 
-getGitmuxDirCmd() {
+getGitmuxDir() {
 	if [ -f "$HOME/.gitmux.conf" ]; then
-		echo "-cfg $HOME/.gitmux.conf"
+		echo "$HOME/.gitmux.conf"
 	elif [ -f "$HOME/.config/gitmux/gitmux.conf" ]; then
-		echo "-cfg $HOME/.config/gitmux/gitmux.conf"
+		echo "$HOME/.config/gitmux/gitmux.conf"
 	else
 		echo ""
 	fi
 }
-
-gitmuxDirCmd=$(getGitmuxDirCmd)
 
 getOsLogo() {
 	declare -A os_logos
@@ -60,7 +45,20 @@ getOsLogo() {
 	echo "$logo"
 }
 
+gitmuxDir=$(getGitmuxDir)
 osName=$(grep ^NAME /etc/os-release | cut -d= -f2)
+
+setWinOpt() {
+	local option=$1
+	local value=$2
+	tmux set-window-option -gq "$option" "$value"
+}
+
+setOpt() {
+	local option=$1
+	local value=$2
+	tmux set-option -gq "$option" "$value"
+}
 
 setWinOpt "window-status-fg" "$NOCTURNE"
 setWinOpt "window-status-bg" "$NOCTURNE"
@@ -92,7 +90,7 @@ setOpt "status-fg" "$WHITE"
 prefixStatus="#{?client_prefix,$PEACH,$LAVENDER}"
 stLfSeparator="#[fg=$NOCTURNE,bg=$prefixStatus,bold]"
 stLfSession="#[fg=$NOCTURNE,bg=$prefixStatus,bold]   #S #[bg=$prefixStatus,bold]"
-gitmux="#(gitmux ${gitmuxDirCmd} #{pane_current_path})"
+gitmux="#(gitmux -cfg ${gitmuxDir} #{pane_current_path})"
 stRtGitStatus="#[fg=$WHITE,bg=$AZURE] #[fg=$WHITE,bg=$AZURE,bold]${gitmux}#[fg=$WHITE,bg=$AZURE,bold] "
 stRtLinuxName="#[fg=$AZURE,bg=$prefixStatus,bold] #[fg=$AZURE,bg=$prefixStatus,bold]$(getOsLogo)  ${osName}  "
 stRtSeparator1="#[fg=$NOCTURNE,bg=$AZURE,bold]"
